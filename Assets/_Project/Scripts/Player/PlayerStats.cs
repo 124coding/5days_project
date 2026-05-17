@@ -131,7 +131,7 @@ public class PlayerStats : MonoBehaviour, IDamageable
 
         if (uiManager != null)
         {
-            uiManager.Invoke("ShowLoseUI", 3f);
+            uiManager.ShowLoseUIDelayed(3f);
         }
     }
 

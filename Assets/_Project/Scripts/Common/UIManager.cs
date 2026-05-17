@@ -48,6 +48,30 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void ShowWinUIDelayed(float delay)
+    {
+        StartCoroutine(ExecuteWinUIDelayed(delay));
+    }
+
+    public void ShowLoseUIDelayed(float delay)
+    {
+        StartCoroutine(ExecuteLoseUIDelayed(delay));
+    }
+
+    private IEnumerator ExecuteWinUIDelayed(float delay)
+    {
+        yield return new WaitForSecondsRealtime(delay);
+
+        ShowWinUI();
+    }
+
+    private IEnumerator ExecuteLoseUIDelayed(float delay)
+    {
+        yield return new WaitForSecondsRealtime(delay);
+
+        ShowLoseUI();
+    }
+
     // ½Â¸® È­¸é ¶ç¿ì±â
     public void ShowWinUI()
     {

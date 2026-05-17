@@ -101,7 +101,7 @@ public class BossStat : MonoBehaviour, IDamageable
 
         if (uiManager != null)
         {
-            uiManager.Invoke("ShowWinUI", 3f); // ½Â¸® È­¸é ¶ç¿ì±â!
+            uiManager.ShowWinUIDelayed(3f);
         }
     }
 
