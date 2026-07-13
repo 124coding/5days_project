@@ -1,4 +1,4 @@
-using System.Collections;
+    using System.Collections;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -161,7 +161,18 @@ public class PlayerCombat : MonoBehaviour, ICombatEvents
     public void CancelAttack()
     {
         isAttacking = false;
+        inputReserved = false; // 예약 초기화
+        comboIndex = 0;        // 콤보 인덱스 초기화
 
+        // 애니메이터 초기화 (모든 트리거 제거)
+        if (anim != null)
+        {
+            anim.ResetTrigger("StandAttack");
+            anim.ResetTrigger("RunAttack");
+            anim.SetInteger("ComboIndex", 0);
+        }
+
+        // 히트박스 끄기
         if (hitboxes != null)
         {
             foreach (var hitbox in hitboxes)

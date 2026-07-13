@@ -34,22 +34,25 @@ public class BossMovement : MonoBehaviour, IMovementEvents
 
     public void Strafe(Vector3 playerPos, float range, float speed)
     {
+        // Agent가 경로를 강제로 이동하도록 설정
         controller.Agent.isStopped = false;
+        controller.Agent.speed = speed;
 
-        // 플레이어를 향하는 방향 (땅바닥 기준 2D 평면화)
         Vector3 dirToPlayer = (playerPos - transform.position);
         dirToPlayer.y = 0;
 
-        // 완벽한 게걸음 방향 (외적 활용)
-        // 플레이어를 바라보는 방향의 완벽한 오른쪽 직각 벡터
+        // 플레이어와의 거리가 range보다 가까우면 뒤로, 멀면 앞으로 조정하여 거리를 유지
+        float distance = dirToPlayer.magnitude;
+        float distOffset = (distance - range) * 0.5f;
+
+        // 플레이어를 바라보는 오른쪽 벡터 계산
         Vector3 rightDir = Vector3.Cross(Vector3.up, dirToPlayer.normalized);
 
-        // strafeDir이 1이면 오른쪽, -1이면 왼쪽 게걸음
-        Vector3 strafeVector = rightDir * strafeDir;
+        // 옆으로 이동할 위치 계산 (플레이어로부터의 거리 유지 + 게걸음 방향)
+        Vector3 targetPos = transform.position + (rightDir * strafeDir) + (dirToPlayer.normalized * distOffset);
 
-        // SetDestination을 쓰지 않고 매 프레임 Agent의 속도를 강제로 조종!
-        Vector3 moveVelocity = strafeVector.normalized * speed;
-        controller.Agent.velocity = moveVelocity;
+        // velocity 직접 수정 대신, 목적지를 계속 갱신
+        controller.Agent.SetDestination(targetPos);
 
         SetAnimParameter();
     }

@@ -55,6 +55,9 @@ public class PlayerController : MonoBehaviour
         if (stats.isStunned) return;
 
         // 이동 로직 실행 (입력 데이터와 물리 컴포넌트들을 전달)
-        if (movement != null && input != null && !combat.IsAttacking)  movement.HandleMovement(input.H, input.V);
+        if (movement != null && input != null && !combat.IsAttacking && !movement.IsRolling)
+        {
+            movement.HandleMovement(input.H, input.V);
+        }
     }
 }

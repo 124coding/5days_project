@@ -139,18 +139,27 @@ public class BossCombat : MonoBehaviour, ICombatEvents
 
     public void EnableAttack(string parameters)
     {
+        if (string.IsNullOrEmpty(parameters)) return;
+
         string[] splitData = parameters.Split('/');
 
         if (splitData.Length >= 2)
         {
-            float damageMultiplier = float.Parse(splitData[0]);
-            float knockbackPower = float.Parse(splitData[1]);
+            bool isDamageParsed = float.TryParse(splitData[0], out float damageMultiplier);
+            bool isKnockbackParsed = float.TryParse(splitData[1], out float knockbackPower);
 
-            float finalDamage = controller.Stat.damage * damageMultiplier;
+            if (isDamageParsed && isKnockbackParsed)
+            {
+                float finalDamage = controller.Stat.damage * damageMultiplier;
 
-            hitbox.knockbackPower = knockbackPower;
-            hitbox.SetDamage(finalDamage);
-            hitbox.EnableHitBox();
+                hitbox.knockbackPower = knockbackPower;
+                hitbox.SetDamage(finalDamage);
+                hitbox.EnableHitBox();
+            }
+            else
+            {
+                Debug.LogError($"[BossCombat] 공격 파라미터 변환 실패: {parameters}");
+            }
         }
     }
 
