@@ -1,4 +1,4 @@
-# [C++] 3D PVE Quarter-View Action System
+# [C#/Unity] 3D PVE Quarter-View Action System
 
 **게임명:** Just Fight
 **개발 환경:** C#, Unity
