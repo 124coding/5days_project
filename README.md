@@ -8,6 +8,8 @@
 ## 기술적 핵심
 단순한 기능 구현을 넘어 컴포넌트 간의 결합도를 낮추고, 5일이라는 짧은 기간 내에서도 유지보수가 용이한 객체 지향적이고 안정적인 시스템 아키텍처를 설계하는 데 집중했습니다.  
 
+[[Just Fight 시연 영상]](https://youtu.be/_jYzGusobCA)
+
 </br>
 
 ### 1. 인터페이스 분리와 이벤트 리시버 (Interface Segregation & Event Decoupling)
