@@ -21,6 +21,11 @@ public class UIManager : MonoBehaviour
     public CanvasGroup resultCanvasGroup;
     public float fadeDuration = 1.5f;
 
+    private void Start()
+    {
+        resultPanel.SetActive(false);
+    }
+
     // 플레이어 체력 업데이트
     public void UpdatePlayerHP(float currentHp, float maxHp)
     {

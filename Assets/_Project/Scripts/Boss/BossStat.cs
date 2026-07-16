@@ -94,6 +94,10 @@ public class BossStat : MonoBehaviour, IDamageable
 
         controller.enabled = false;
 
+        anim.SetBool("IsStunned", false);
+
+        anim.ResetTrigger("Hit");
+
         anim.SetTrigger("Die");
 
         Collider col = GetComponent<Collider>();

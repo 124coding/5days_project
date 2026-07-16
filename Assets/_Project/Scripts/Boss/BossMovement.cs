@@ -34,27 +34,30 @@ public class BossMovement : MonoBehaviour, IMovementEvents
 
     public void Strafe(Vector3 playerPos, float range, float speed)
     {
-        // Agent가 경로를 강제로 이동하도록 설정
-        controller.Agent.isStopped = false;
-        controller.Agent.speed = speed;
+        // 1. 에이전트의 자동 길찾기 및 목적지 이동을 일시 정지
+        controller.Agent.isStopped = true;
 
         Vector3 dirToPlayer = (playerPos - transform.position);
         dirToPlayer.y = 0;
 
-        // 플레이어와의 거리가 range보다 가까우면 뒤로, 멀면 앞으로 조정하여 거리를 유지
+        // 2. 플레이어 중심의 오른쪽/왼쪽 벡터 계산
+        Vector3 rightDir = Vector3.Cross(Vector3.up, dirToPlayer.normalized);
+
+        // 3. 거리 유지를 위한 오프셋 (너무 멀면 다가가고, 너무 가까우면 물러남)
         float distance = dirToPlayer.magnitude;
         float distOffset = (distance - range) * 0.5f;
 
-        // 플레이어를 바라보는 오른쪽 벡터 계산
-        Vector3 rightDir = Vector3.Cross(Vector3.up, dirToPlayer.normalized);
+        // 4. 최종 이동 방향 계산 (게걸음 방향 + 거리 유지 방향)
+        Vector3 moveDir = (rightDir * strafeDir) + (dirToPlayer.normalized * distOffset);
 
-        // 옆으로 이동할 위치 계산 (플레이어로부터의 거리 유지 + 게걸음 방향)
-        Vector3 targetPos = transform.position + (rightDir * strafeDir) + (dirToPlayer.normalized * distOffset);
+        // 5. 직접 속도를 적용하여 이동
+        controller.Agent.velocity = moveDir.normalized * speed;
 
-        // velocity 직접 수정 대신, 목적지를 계속 갱신
-        controller.Agent.SetDestination(targetPos);
-
-        SetAnimParameter();
+        // 애니메이션 업데이트 (애니메이터 파라미터는 로컬 방향 기준이므로 변환 필요)
+        Vector3 localVelocity = transform.InverseTransformDirection(controller.Agent.velocity);
+        anim.SetFloat("Vertical", localVelocity.z);
+        anim.SetFloat("Horizontal", localVelocity.x);
+        anim.SetFloat("Speed", controller.Agent.velocity.magnitude);
     }
 
     public void Stop()

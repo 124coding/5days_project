@@ -45,6 +45,7 @@ public class PlayerCombat : MonoBehaviour, ICombatEvents
         if (rb != null)
         {
             rb.linearVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
         }
 
         lastAttackTime = Time.time;
